@@ -1,0 +1,63 @@
+@import "./variables.scss";
+
+.mm-btn {
+    color: $font-black;
+    border: none;
+    outline: none !important;
+    margin: 0px auto;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background-color: $card-white;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    &:disabled {
+        color: $grey !important;
+        background-color: $card-white !important;
+        border: 1px solid $card-white !important;
+        &:hover {
+            // background-color: $mm-orange !important;
+            // border: 1px solid $mm-orange;
+        }
+    }
+    &.primary {
+        background-color: $mm-orange;
+        &:hover {
+            color: $white;
+        }
+    }
+    &:hover {
+        // background-color: $mm-orange !important;
+        border: 1px solid $mm-orange;
+    }
+}
+.mm-icon-btn {
+    background-color: $mm-orange;
+    border-radius: 50%;
+    font-size: 1.6rem !important;
+    color: $white;
+    padding: 3px;
+}
+.ghost {
+    background-color: transparent;
+    border: 0px;
+    padding: 0px;
+    outline: none;
+}
+// styling input field
+.MuiTextField-root {
+    .MuiFormLabel-root.Mui-focused {
+        color: $mm-orange;
+    }
+    .MuiInput-root {
+        &::after {
+            border-color: $mm-orange;
+        }
+    }
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: $grey;
+    border-radius: 5px;
+}

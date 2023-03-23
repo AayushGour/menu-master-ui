@@ -1,0 +1,81 @@
+
+.brands{
+  width: calc(100% - 249px);
+  margin-left: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.wrap21 {
+  flex-direction: column;
+  height: 50px;
+  min-width: 150px;
+  /* width: 200px; */
+  /* padding: 5px; */
+  /* padding-left: 10; */
+  
+  border-radius: 5px;
+ 
+  /* border-width: 5; */
+  /* align-items: center; */
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  /* margin: 10px; */
+  /* margin-top: 50px; */
+  margin-left: 5px;
+  /* flex-wrap: wrap; */
+  flex: 1;
+  /* border-bottom-style: groove; */
+  /* border-bottom-color: coral; */
+  /* border-bottom-width: 7px; */
+}
+.wrap31 {
+  flex-direction: column;
+  /* height: 120px; */
+  /* min-width: 150px; */
+  /* width: 200px; */
+  /* padding: 5px; */
+  /* padding-left: 10; */
+  /* background-color: greenyellow; */
+  border-radius: 5px;
+  /* border-width: 5; */
+  /* align-items: center; */
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* margin: 10px; */
+  margin-top: 11rem;
+
+ 
+  /* flex-wrap: wrap; */
+  flex: 1;
+  /* border-bottom-style: groove; */
+  /* border-bottom-color: coral; */
+  /* border-bottom-width: 7px; */
+}
+
+.wrap41 {
+ 
+  height: 50px;
+  min-width: 150px;
+  /* width: 200px; */
+  /* padding: 5px; */
+  /* padding-left: 10; */
+  
+  border-radius: 5px;
+  /* border-width: 5; */
+  /* align-items: center; */
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  /* margin: 10px; */
+  /* margin-top: 50px; */
+
+  /* flex-wrap: wrap; */
+ 
+  /* border-bottom-style: groove; */
+  /* border-bottom-color: coral; */
+  /* border-bottom-width: 7px; */
+}

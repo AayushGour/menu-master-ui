@@ -1,0 +1,40 @@
+@import "../../utility/variables.scss";
+
+.plan-selector-container {
+    .plan {
+        width: 33%;
+        align-items: center;
+        border: 1px solid $grey;
+        border-radius: 15px;
+        flex-shrink: 1;
+        overflow: hidden;
+        // transition: all 0.3s;
+        // -webkit-transition: all 0.3s;
+        cursor: pointer;
+        .plan-name {
+            transition: all 0.3s;
+            -webkit-transition: all 0.3s;
+            border-bottom: 1px solid $grey;
+        }
+        .plan-price {
+            width: 100%;
+            font-weight: bold;
+            color: $mm-orange;
+            small {
+                font-size: 65%;
+                font-weight: normal;
+            }
+        }
+        &:hover {
+            box-shadow: 2px 2px 5px $shadow-dark;
+        }
+        &.selected {
+            border: 2px solid $mm-orange;
+            .plan-name {
+                background-color: $mm-orange;
+                color: $white;
+                border-bottom: 1px solid $mm-orange;
+            }
+        }
+    }
+}

@@ -1,0 +1,61 @@
+@import "../../../utility/variables.scss";
+
+.menu-item-edit-container {
+    .upload-btn {
+        color: $dark-grey;
+        border: 1px solid $grey;
+    }
+    .menu-item-details {
+        width: 25%;
+        & > * {
+            width: 100%;
+        }
+        .menu-item-input {
+            &::after {
+                border-color: $mm-orange;
+            }
+        }
+        .veg-toggle {
+            .MuiSwitch-switchBase {
+                color: $veg-green;
+                & + .MuiSwitch-track {
+                    background-color: $veg-green;
+                }
+                &.Mui-checked {
+                    color: $non-veg-red;
+                    & + .MuiSwitch-track {
+                        background-color: $non-veg-red;
+                    }
+                }
+            }
+        }
+        .availability-toggle {
+            .MuiSwitch-switchBase {
+                color: $danger-red;
+                & + .MuiSwitch-track {
+                    background-color: $danger-red;
+                }
+                &.Mui-checked {
+                    color: $veg-green;
+                    & + .MuiSwitch-track {
+                        background-color: $veg-green;
+                    }
+                }
+            }
+        }
+        .spice-stack {
+            .MuiSlider-root {
+                .MuiSlider-valueLabel {
+                    background-color: $white;
+                    border-radius: 50%;
+                    box-shadow: 1px 1px 3px $black50;
+                }
+            }
+            .MuiAvatar-root {
+                .MuiAvatar-img {
+                    object-fit: contain;
+                }
+            }
+        }
+    }
+}

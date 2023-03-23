@@ -1,0 +1,101 @@
+@import "../../../utility/variables.scss";
+
+.restaurant-list-page {
+    color: $font-black;
+    background-color: $card-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    .restaurant-list-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        &.img-bg {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            // background-color: linear-gradient;
+        }
+        .brand-select {
+            &.MuiInputBase-root {
+                background-color: transparent;
+                color: $mm-orange !important;
+                font-size: 2rem !important;
+                .MuiSelect-select,
+                .MuiInputBase-input,
+                .MuiSelect-nativeInput {
+                    background-color: transparent !important;
+                }
+                &::after,
+                &::before {
+                    border-color: transparent !important;
+                }
+                .MuiSelect-select {
+                    text-transform: capitalize;
+                }
+                .MuiSvgIcon-root {
+                    color: $mm-orange;
+                }
+            }
+        }
+    }
+    .restaurants-list-container {
+        margin: 20px 20px 15px 20px;
+        overflow: hidden;
+        background-color: $white;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        border-radius: 10px;
+        // box-shadow: inset 0px 0px 8px $black50;
+        border: 1px solid $grey;
+        .restaurant-list {
+            height: 100%;
+            overflow: hidden auto;
+            width: 20%;
+            list-style: none;
+            padding: 10px 10px;
+            .list-item {
+                border-radius: 8px;
+                padding: 12px;
+                text-align: left;
+                font-size: 1.1rem;
+                line-height: 1.2rem;
+                cursor: pointer;
+                border: 1px solid $light-grey;
+                transition: all 0.3s;
+                -webkit-transition: all 0.3s;
+                position: relative;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                &:hover {
+                    box-shadow: 2px 2px 5px $black50;
+                }
+                &.selected {
+                    // &::before {
+                    //     content: "";
+                    //     display: block;
+                    //     position: absolute;
+                    //     left: 0px;
+                    //     top: 0px;
+                    //     height: 100%;
+                    //     width: 6px;
+                    //     background-color: $mm-orange;
+                    // }
+                    box-shadow: 2px 2px 4px $mm-orange;
+                }
+            }
+        }
+        .mm-divider.MuiDivider-root {
+            background-color: $grey;
+        }
+        .menu-content-container {
+            transition: all 0.3s;
+            -webkit-transition: all 0.3s;
+            overflow: hidden auto;
+        }
+    }
+}

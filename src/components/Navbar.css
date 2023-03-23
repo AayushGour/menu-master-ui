@@ -1,0 +1,13 @@
+.Navbar {
+    width: calc(100% - 249px);
+    margin-left: 240px;
+   box-shadow: 0.2px 0.2px 0.5px rgba(0, 0, 0, 0.3);
+    margin-top: -0.40rem;
+    height: 90px;
+   display: flex;
+
+   align-items: center;
+  
+   
+  }
+  

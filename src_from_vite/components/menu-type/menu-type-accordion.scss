@@ -1,0 +1,31 @@
+@import "../../utility/variables.scss";
+
+.menu-type-container {
+    .menu-type-accordion {
+        margin: 10px !important;
+        border: 1px solid $light-grey;
+        .mt-acc-header {
+            .expand-icon {
+                font-size: 1.9rem;
+                margin: auto 5px;
+            }
+            .MuiAccordionSummary-content {
+                justify-content: space-between;
+            }
+            .MuiAccordionSummary-expandIconWrapper {
+                margin: auto;
+            }
+            .mt-acc-header-content {
+                font-size: 1.2rem;
+                text-transform: capitalize;
+            }
+        }
+        &.Mui-expanded {
+            .mt-acc-header {
+                border-bottom: 1px solid $mm-yellow;
+            }
+        }
+        .mt-acc-details {
+        }
+    }
+}

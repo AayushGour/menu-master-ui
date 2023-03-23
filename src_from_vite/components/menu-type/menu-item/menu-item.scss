@@ -1,0 +1,14 @@
+@import "../../../utility/variables.scss";
+
+.menu-item-container {
+    .dragger {
+        cursor: move;
+    }
+    .para-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
