@@ -28,6 +28,10 @@ const RestaurantListPage = (props) => {
     }, [])
 
     const refreshBrandList = () => {
+        setIsLoading(true);
+        if (isCreateBrandCardOpen) {
+            setIsCreateBrandCardOpen(false);
+        }
         getBrandList().then((response) => {
             setBrandList(response?.data);
             if (Array.isArray(response?.data) && response?.data?.length > 0) {
@@ -76,7 +80,10 @@ const RestaurantListPage = (props) => {
         }).finally(() => {
             setIsLoading(false);
         });
+    }
 
+    const handleBrandCreationDialogClose = () => {
+        setIsCreateBrandCardOpen(false);
     }
 
     // if (isLoading) {
@@ -86,7 +93,7 @@ const RestaurantListPage = (props) => {
         return (
             <div className='restaurant-list-page h-100 w-100 d-flex flex-column align-items-center justify-content-center'>
                 {/* <button className='mm-btn primary mt-5' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button> */}
-                <CreateBrandCard />
+                <CreateBrandCard refreshBrandList={refreshBrandList} />
             </div>
         )
     }
@@ -94,6 +101,9 @@ const RestaurantListPage = (props) => {
     const brandBackground = false;
     return (
         <div className="restaurant-list-page h-100 w-100">
+            <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={handleBrandCreationDialogClose}>
+                <CreateBrandCard refreshBrandList={refreshBrandList} className="w-100" />
+            </Dialog>
             {isLoading ? <MMLoader className="overlay" /> : <></>}
             <div
                 style={{ backgroundImage: !!brandBackground && brandBackground !== "null" ? `linear-gradient(to right, #000b 15%, transparent), url(${brandBackground})` : "" }}
@@ -110,7 +120,7 @@ const RestaurantListPage = (props) => {
                         return <MenuItem key={index} value={brand?.brandid}>{brand?.brand}</MenuItem>
                     })}
                 </Select>
-                <button className='mm-btn mx-0'>Create Brand</button>
+                <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button>
             </div>
             <div className="restaurants-list-container flex-grow-1">
                 {!isLoading && (restaurantList?.length > 0 ?

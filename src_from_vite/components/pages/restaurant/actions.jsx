@@ -25,8 +25,8 @@ export const createBrand = async (brandDetails) => {
             cUser: localStorage.getItem('userID'),
             action: apiActions.CREATE,
             rank1: 1,
-            status1: 0,
-            BImage: null,
+            status1: 1,
+            BImage: "",
             ...brandDetails,
         }
     }
@@ -41,6 +41,20 @@ export const getRestaurantsList = async (brandId) => {
             userid: localStorage.getItem('userID'),
             action: apiActions.READ,
             brandid: brandId
+        }
+    }
+    return axios(config);
+}
+
+export const createRestaurant = async (params) => {
+    const config = {
+        url: baseUrl + restaurantRoute,
+        method: 'post',
+        data: {
+            userid: localStorage.getItem('userID'),
+            cUser: localStorage.getItem("userID"),
+            action: apiActions.CREATE,
+            ...params
         }
     }
     return axios(config);

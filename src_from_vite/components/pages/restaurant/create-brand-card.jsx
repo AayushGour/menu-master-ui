@@ -4,10 +4,12 @@ import MMLoader from '../../../utility/loader/mm-loader';
 import BrandForm from '../../forms/brand-form';
 import PlanForm from '../../forms/plan-form';
 import RestaurantForm from '../../forms/restaurant-form';
+import { createBrand, createRestaurant } from './actions';
 import "./create-brand-card.scss";
 
 
 const CreateBrandCard = (props) => {
+    const { refreshBrandList, className } = props;
     const [activeStep, setActiveStep] = useState(0);
     const [brandFormDetails, setBrandFormDetails] = useState({});
     const [restaurantFormDetails, setRestaurantFormDetails] = useState("");
@@ -32,14 +34,32 @@ const CreateBrandCard = (props) => {
         } else {
             setIsLoading(true);
             console.log("submit", brandFormDetails, restaurantFormDetails, planDetails);
+            createBrand(brandFormDetails).then((resp) => {
+                console.log(resp);
+                const restParams = {
+                    brandid: resp?.data?.[0]?.brandid,
+                    RImage: "",
+                    rest: restaurantFormDetails,
+                    notes: "",
+                    favourite: 0,
+                    status1: 1,
+                    rank1: 1,
+                    plan_id: planDetails?.plan_id,
+                    plan_name: planDetails?.plan_name
+                }
+                createRestaurant(restParams).finally(() => {
+                    refreshBrandList();
+                    setIsLoading(false);
+                })
+            })
             setTimeout(() => {
                 setIsLoading(false);
-                closeDialog();
+                // closeDialog();
             }, 2000);
         }
     }
 
-    return <div className={`dialog-container width-50`}>
+    return <div className={`dialog-container width-50 ${className}`}>
         {activeStep === 0 ?
             <>
                 <h2 className='mb-3'>Hi There!!!</h2>

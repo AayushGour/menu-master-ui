@@ -39,20 +39,23 @@ const PlanForm = (props) => {
     const { onValueChange } = props;
     const [selectedPlan, setSelectedPlan] = useState("");
 
-    const handlePlanSelection = (planId) => {
+    const handlePlanSelection = (planId, planName) => {
         setSelectedPlan(planId);
-        onValueChange(planId);
+        onValueChange({
+            plan_id: planId,
+            plan_name: planName
+        });
     }
 
     return (
         <div className="plan-selector-container d-flex flex-row justify-content-between w-100 gap-4  mt-4">
             {planDetailsList?.map((plan) => {
                 const featureList = <ul className='feature-list'>
-                    {plan?.features?.map((feature) => {
-                        return <li className='text-start'>{feature}</li>
+                    {plan?.features?.map((feature, lIndex) => {
+                        return <li key={lIndex} className='text-start'>{feature}</li>
                     })}
                 </ul>
-                return <div className={`plan ${selectedPlan === plan?.id ? "selected" : ""}`} onClick={() => handlePlanSelection(plan?.id)}>
+                return <div key={plan?.id} className={`plan ${selectedPlan === plan?.id ? "selected" : ""}`} onClick={() => handlePlanSelection(plan?.id, plan?.planName)}>
                     <h5 className='plan-name text-center pt-3 pb-2 mb-0'>{plan?.planName}</h5>
                     <h2 className='plan-price text-center my-3'><small>$</small>{plan?.price}</h2>
                     {featureList}
