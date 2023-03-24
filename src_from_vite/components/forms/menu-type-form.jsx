@@ -4,7 +4,6 @@ import { createMenuTypeDetails } from '../pages/restaurant/actions';
 
 const MenuTypeForm = (props) => {
     const { data, refreshMenuTypeList } = props;
-    console.log(data)
     const [menuTypeTitle, setMenuTypeTitle] = useState("");
     const [notes, setNotes] = useState("");
     const handleFormSubmit = async () => {

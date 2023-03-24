@@ -10,7 +10,7 @@ import MenuTypeForm from '../../forms/menu-type-form';
 import PlanForm from '../../forms/plan-form';
 import RestaurantForm from '../../forms/restaurant-form';
 import MenuTypeAccordion from '../../menu-type/menu-type-accordion';
-import { getBrandList, getMenuTypeDetails, getRestaurantsList } from './actions';
+import { createRestaurant, getBrandList, getMenuTypeDetails, getRestaurantsList } from './actions';
 import CreateBrandCard from './create-brand-card';
 import "./restaurant-list.scss";
 
@@ -23,6 +23,8 @@ const RestaurantListPage = (props) => {
     const [menuTypeList, setMenuTypeList] = useState([])
     const [isLoading, setIsLoading] = useState(true);
     const [isCreateBrandCardOpen, setIsCreateBrandCardOpen] = useState(false);
+    const [isCreateRestCardOpen, setIsCreateRestCardOpen] = useState(false);
+    const [newRestDetails, setNewRestDetails] = useState("");
     useEffect(() => {
         refreshBrandList();
     }, [])
@@ -82,9 +84,26 @@ const RestaurantListPage = (props) => {
         });
     }
 
-    const handleBrandCreationDialogClose = () => {
-        setIsCreateBrandCardOpen(false);
+    const handleRestaurantCreation = () => {
+        console.log(newRestDetails)
+        const restParams = {
+            brandid: newRestDetails?.brandid,
+            RImage: "",
+            rest: newRestDetails?.rest,
+            notes: "",
+            favourite: 0,
+            status1: 1,
+            rank1: 1,
+            plan_id: newRestDetails?.plan?.plan_id,
+            plan_name: newRestDetails?.plan?.plan_name
+        }
+        createRestaurant(restParams).finally(() => {
+            refreshBrandList();
+            // setIsLoading(false);
+            setIsCreateRestCardOpen(false)
+        })
     }
+
 
     // if (isLoading) {
     //     return <MMLoader className="h-100" />
@@ -101,8 +120,11 @@ const RestaurantListPage = (props) => {
     const brandBackground = false;
     return (
         <div className="restaurant-list-page h-100 w-100">
-            <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={handleBrandCreationDialogClose}>
+            <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={() => setIsCreateBrandCardOpen(false)}>
                 <CreateBrandCard refreshBrandList={refreshBrandList} className="w-100" />
+            </Dialog>
+            <Dialog className='create-brand-dialog' open={isCreateRestCardOpen} onClose={() => setIsCreateRestCardOpen(false)}>
+                <RestaurantForm details={newRestDetails} brandList={brandList} type="rest" onValueChange={setNewRestDetails} onSubmit={handleRestaurantCreation} className="w-100 px-5 py-4" onCancel={() => { setIsCreateRestCardOpen(false); setNewRestDetails({}); }} refreshBrandList={refreshBrandList} />
             </Dialog>
             {isLoading ? <MMLoader className="overlay" /> : <></>}
             <div
@@ -114,13 +136,16 @@ const RestaurantListPage = (props) => {
                     className='brand-select'
                     value={selectedBrand}
                     onChange={(e) => handleBrandChange(e.target.value)}
-                    label="Age"
+                    label="Brand"
                 >
                     {brandList?.map((brand, index) => {
                         return <MenuItem key={index} value={brand?.brandid}>{brand?.brand}</MenuItem>
                     })}
                 </Select>
-                <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button>
+                <div className="d-flex flex-row align-items-center justify-content-end gap-3">
+                    <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button>
+                    <button className='mm-btn mx-0' onClick={() => setIsCreateRestCardOpen(true)}>Create Restaurant</button>
+                </div>
             </div>
             <div className="restaurants-list-container flex-grow-1">
                 {!isLoading && (restaurantList?.length > 0 ?

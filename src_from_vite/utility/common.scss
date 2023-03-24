@@ -77,7 +77,8 @@
 }
 
 // styling input field
-.MuiTextField-root {
+.MuiTextField-root,
+.select-brand-control {
     .MuiFormLabel-root.Mui-focused {
         color: $mm-orange;
     }
@@ -85,6 +86,15 @@
         &::after {
             border-color: $mm-orange;
         }
+    }
+}
+.mm-select {
+    &::after {
+        border-color: $mm-orange !important;
+    }
+    .MuiSelect-select,
+    input {
+        background-color: $white !important;
     }
 }
 ::-webkit-scrollbar {

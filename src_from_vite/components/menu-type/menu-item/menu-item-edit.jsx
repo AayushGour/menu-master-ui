@@ -14,7 +14,6 @@ import "./menu-item-edit.scss";
 
 const MenuItemEditComponent = (props) => {
     const { data, cancelCreation, submitForm } = props;
-    console.log("m edit", data)
     const [fileList, setFileList] = useState([]);
     const [itemName, setItemName] = useState(data?.menu || "");
     const [itemDescription, setItemDescription] = useState(data?.description || "");

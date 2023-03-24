@@ -11,7 +11,6 @@ import MenuItemEditComponent from '../menu-item/menu-item-edit';
 
 const CategoryItem = (props) => {
     const { data, refreshCategoryDetails } = props;
-    console.log(data);
     const [catTitle, setCatTitle] = useState(data?.cat);
     const [isCatEditing, setIsCatEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +31,6 @@ const CategoryItem = (props) => {
             catid: data?.catid
         }
         getMenuDetails(menuItemParams).then((resp) => {
-            console.log("menu", resp?.data)
             setMenuItemList(resp?.data);
         }).finally(() => {
             setIsLoading(false);

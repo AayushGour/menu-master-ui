@@ -35,7 +35,6 @@ const CreateBrandCard = (props) => {
             setIsLoading(true);
             console.log("submit", brandFormDetails, restaurantFormDetails, planDetails);
             createBrand(brandFormDetails).then((resp) => {
-                console.log(resp);
                 const restParams = {
                     brandid: resp?.data?.[0]?.brandid,
                     RImage: "",
@@ -59,7 +58,7 @@ const CreateBrandCard = (props) => {
         }
     }
 
-    return <div className={`dialog-container width-50 ${className}`}>
+    return <div className={`dialog-container width-50 ${className ?? ""}`}>
         {activeStep === 0 ?
             <>
                 <h2 className='mb-3'>Hi There!!!</h2>

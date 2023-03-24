@@ -32,7 +32,6 @@ const MenuItemComponent = (props) => {
         setIsLoading(true)
         const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage"]
         Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
-        // console.log(submitParams)
         updateMenuItem(submitParams).then(() => {
             refreshMenuDetails();
         }).finally(() => {
@@ -56,7 +55,6 @@ const MenuItemComponent = (props) => {
         />
     }
 
-    // console.log(item)
     return (
         <div className="menu-item-container w-100 d-flex flex-row mb-3">
             {isLoading ? <MMLoader className="overlay" /> : <></>}

@@ -18,7 +18,7 @@ const MMHeader = (props) => {
             localStorage.clear();
             navigate(routeNames.SIGNIN);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 
