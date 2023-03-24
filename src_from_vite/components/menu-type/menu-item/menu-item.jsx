@@ -3,7 +3,7 @@ import { Avatar, Chip, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import NonVegImg from "../../../assets/img/non-veg.png";
 import VegImg from "../../../assets/img/veg.png";
-import { updateMenuItem } from '../actions';
+import { deleteMenuItem, updateMenuItem } from '../actions';
 import MenuItemEditComponent from './menu-item-edit';
 import NoSpiceImg from "../../../assets/img/no-spice.png";
 import Spice1 from "../../../assets/img/spice-1.png";
@@ -11,10 +11,12 @@ import Spice2 from "../../../assets/img/spice-2.png";
 import Spice3 from "../../../assets/img/spice-3.png";
 import "./menu-item.scss";
 import MMTooltip from '../../../utility/mm-tooltip';
+import MMLoader from '../../../utility/loader/mm-loader';
 
 const MenuItemComponent = (props) => {
     const { item, itemSelected, dragHandleProps, refreshMenuDetails } = props;
     const [isMenuItemEditing, setIsMenuItemEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -27,14 +29,24 @@ const MenuItemComponent = (props) => {
     };
 
     const handleMenuItemUpdate = (submitParams) => {
-
+        setIsLoading(true)
         const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage"]
         Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
         // console.log(submitParams)
         updateMenuItem(submitParams).then(() => {
             refreshMenuDetails();
+        }).finally(() => {
+            setIsLoading(false)
         })
     }
+
+    const handleMenuItemDelete = () => {
+        handleMenuClose();
+        deleteMenuItem({ menuid: item?.menuid }).then(() => {
+            refreshMenuDetails();
+        });
+    };
+
 
     if (isMenuItemEditing) {
         return <MenuItemEditComponent
@@ -47,6 +59,7 @@ const MenuItemComponent = (props) => {
     // console.log(item)
     return (
         <div className="menu-item-container w-100 d-flex flex-row mb-3">
+            {isLoading ? <MMLoader className="overlay" /> : <></>}
             <DragIndicator className='dragger my-auto me-2' {...dragHandleProps} />
             <Avatar className='item-image' sx={{ height: 100, width: 100 }} variant='square' src={item?.MImage} >
                 <ImageNotSupported sx={{ fontSize: "3rem" }} />
@@ -104,7 +117,7 @@ const MenuItemComponent = (props) => {
                     }}
                 >
                     <MenuItem onClick={() => { setIsMenuItemEditing(true); handleMenuClose(); }}>Edit Item</MenuItem>
-                    <MenuItem onClick={handleMenuClose}>Delete Item</MenuItem>
+                    <MenuItem onClick={handleMenuItemDelete}>Delete Item</MenuItem>
                 </Menu>
             </>
         </div >

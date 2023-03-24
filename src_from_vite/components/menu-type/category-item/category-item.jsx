@@ -2,9 +2,10 @@ import { Add, Close, Done, Edit, MoreHoriz } from '@mui/icons-material';
 import { Divider, TextField } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import DraggableList from 'react-draggable-list';
+import MMLoader from '../../../utility/loader/mm-loader';
 import MMTooltip from '../../../utility/mm-tooltip';
 import NoDataComponent from '../../../utility/no-data-component/no-data-component';
-import { getMenuDetails, updateCategory } from '../actions';
+import { createMenuItem, getMenuDetails, updateCategory } from '../actions';
 import MenuItemComponent from '../menu-item/menu-item';
 import MenuItemEditComponent from '../menu-item/menu-item-edit';
 
@@ -23,7 +24,7 @@ const CategoryItem = (props) => {
     }, [])
 
     const refreshMenuDetails = () => {
-        setIsLoading(false);
+        setIsLoading(true);
         const menuItemParams = {
             brandid: data?.brandid,
             mtid: data?.mtid,
@@ -49,17 +50,20 @@ const CategoryItem = (props) => {
     }
 
     const handleMenuItemCreation = async (submitParams) => {
+        setIsLoading(true)
         createMenuItem(submitParams).then(() => {
             setIsMenuItemCreating(false);
             refreshMenuDetails();
         }).catch(e => {
             console.error(e);
+        }).finally(() => {
+            setIsLoading(false);
         })
     }
 
     return (
         <div className='category-item ms-2'>
-
+            {isLoading ? <MMLoader className="overlay" /> : <></>}
             <div className="d-flex flex-row align-items-center justify-content-between pe-2 my-3">
                 {isCatEditing ?
                     <div className='w-50 d-flex flex-row align-items-center gap-2'>

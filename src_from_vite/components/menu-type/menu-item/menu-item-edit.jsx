@@ -9,7 +9,6 @@ import Spice3 from "../../../assets/img/spice-3.png";
 import VegImg from "../../../assets/img/veg.png";
 import MMTooltip from '../../../utility/mm-tooltip';
 import { handleFileUpload } from '../../pages/restaurant/actions';
-import { createMenuItem } from '../actions';
 
 import "./menu-item-edit.scss";
 
@@ -94,7 +93,7 @@ const MenuItemEditComponent = (props) => {
                             {...params}
                             variant="standard"
                             label="Ingredients"
-                            placeholder="Enter Ingredients"
+                            placeholder="Enter Ingredient & press enter"
                             className='ingredient-input'
                         />
                     )}
@@ -115,7 +114,6 @@ const MenuItemEditComponent = (props) => {
                 </div>
                 <div className='d-flex flex-row align-items-center justify-content-end pe-3'>
                     <Avatar sx={{ height: 20, width: 20 }} variant='square' src={VegImg} />
-                    {console.log(!nonVeg)}
                     <Switch className='veg-toggle' defaultChecked={nonVeg} onChange={(e) => setNonVeg(e?.target?.checked)} />
                     <Avatar sx={{ height: 20, width: 20 }} variant='square' src={NonVegImg} />
                 </div>
