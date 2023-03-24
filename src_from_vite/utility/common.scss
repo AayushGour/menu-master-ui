@@ -1,5 +1,16 @@
 @import "./variables.scss";
 
+// FONT SIZE CLASSES
+.font-1rem {
+    font-size: 1rem !important;
+}
+.font-0_9rem {
+    font-size: 0.9rem !important;
+}
+.font-1_1rem {
+    font-size: 1.1rem !important;
+}
+
 .mm-btn {
     color: $font-black;
     border: none;
@@ -11,6 +22,7 @@
     border: 1px solid transparent;
     transition: all 0.3s;
     &:disabled {
+        cursor: default;
         color: $grey !important;
         background-color: $card-white !important;
         border: 1px solid $card-white !important;
@@ -36,13 +48,34 @@
     font-size: 1.6rem !important;
     color: $white;
     padding: 3px;
+    &.secondary {
+        font-size: 2rem !important;
+        background-color: transparent;
+        border: 1px solid $grey;
+        color: $mm-orange;
+    }
+    &.square {
+        border-radius: 5px;
+    }
+    &.disabled {
+        cursor: default;
+        color: $grey !important;
+        background-color: $card-white !important;
+        border: 1px solid $light-grey !important;
+        &:hover {
+            // background-color: $mm-orange !important;
+            // border: 1px solid $mm-orange;
+        }
+    }
 }
 .ghost {
     background-color: transparent;
+    color: $grey;
     border: 0px;
     padding: 0px;
     outline: none;
 }
+
 // styling input field
 .MuiTextField-root {
     .MuiFormLabel-root.Mui-focused {

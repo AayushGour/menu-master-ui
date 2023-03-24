@@ -4,6 +4,18 @@
     .dragger {
         cursor: move;
     }
+    .item-image {
+        img {
+            object-fit: contain;
+        }
+    }
+    .spice-detail {
+        .MuiAvatar-root {
+            .MuiAvatar-img {
+                object-fit: contain;
+            }
+        }
+    }
     .para-text {
         display: -webkit-box;
         -webkit-line-clamp: 2;

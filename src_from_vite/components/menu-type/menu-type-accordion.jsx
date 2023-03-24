@@ -1,25 +1,29 @@
-import { Add, Edit, Expand, ExpandCircleDown } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { Add, Close, Done, Edit, ExpandCircleDown } from '@mui/icons-material';
+import { Accordion, AccordionDetails, AccordionSummary, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MMLoader from '../../utility/loader/mm-loader';
 import MMTooltip from '../../utility/mm-tooltip';
-import NoDataComponent from '../../utility/no-data-component/no-data-component';
-import { getCategoryDetails, getMenuDetails } from './actions';
+import CreateCategoryForm from '../forms/create-category-form';
+import { updateMenuTypeDetails } from '../pages/restaurant/actions';
+import { getCategoryDetails } from './actions';
 import CategoryItem from './category-item/category-item';
-import CategoryList from './category-item/category-item';
-import MenuItemComponent from './menu-item/menu-item-edit';
 import './menu-type-accordion.scss';
 
 const MenuTypeAccordion = (props) => {
+    const { data, refreshMenuTypeList } = props;
     const [menuItemList, setMenuItemList] = useState([]);
+    const [MTTitle, setMTTitle] = useState(data?.menutype);
     const [categoryList, setCategoryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { data } = props;
+    const [IsMTEditing, setIsMTEditing] = useState(false);
+    const [isCreatingCategory, setIsCreatingCategory] = useState(false);
     useEffect(() => {
         refreshCategoryDetails();
-    }, [])
+    }, []);
+
 
     const refreshCategoryDetails = () => {
+        setIsLoading(true);
         const categoryParams = {
             brandid: data?.brandid,
             mtid: data?.mtid,
@@ -34,8 +38,21 @@ const MenuTypeAccordion = (props) => {
         })
     }
 
+    const handleUpdateMenuTypeTitle = () => {
+        const mtTitleParams = {
+            menutype: MTTitle,
+            mtid: data?.mtid
+        }
+        setIsLoading(true);
+        updateMenuTypeDetails(mtTitleParams).then(() => {
+            setTimeout(() => {
+                refreshMenuTypeList(data?.restid, data?.brandid);
+            }, 500)
+        })
+    }
+
     return (
-        <div className="menu-type-container">
+        <div key={data?.mtid} className="menu-type-container">
             <Accordion className='menu-type-accordion' defaultExpanded={true}>
                 <AccordionSummary
                     className='mt-acc-header'
@@ -43,16 +60,32 @@ const MenuTypeAccordion = (props) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <h5 className='mt-acc-header-content'>{data?.menutype}</h5>
+                    {IsMTEditing ?
+                        <div className='w-50 d-flex flex-row align-items-center gap-2'>
+                            <TextField className='w-75 me-3' required={true} value={MTTitle} label="Menu Type" variant="standard" onClick={(e) => { e.stopPropagation(); e.preventDefault(); }} onChange={(e) => setMTTitle(e?.target?.value)} />
+                            <MMTooltip arrow title={"Cancel"} placement='top'>
+                                <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsMTEditing(false); setMTTitle(data?.menutype) }} className='ghost'>
+                                    <Close className='mm-icon-btn secondary square' />
+                                </button>
+                            </MMTooltip>
+                            <MMTooltip arrow title={"Submit"} placement='top'>
+                                <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleUpdateMenuTypeTitle(); }} className='ghost'>
+                                    <Done className='mm-icon-btn secondary square' />
+                                </button>
+                            </MMTooltip>
+                        </div>
+                        :
+                        <h5 className='mt-acc-header-content mb-0'>{data?.menutype}</h5>
+                    }
 
-                    <div>
+                    <div className='d-flex flex-row align-items-center my-auto'>
                         <MMTooltip arrow title={"Edit Type"} placement='top'>
-                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); console.log("Adding item") }} className='ghost'>
-                                <Edit className='mm-icon-btn edit-icon me-2' />
+                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsMTEditing(true) }} className='ghost'>
+                                <Edit className={`mm-icon-btn edit-icon me-2 ${IsMTEditing ? "disabled" : ""}`} />
                             </button>
                         </MMTooltip>
-                        <MMTooltip arrow title={"Add Items"} placement='top'>
-                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); console.log("Adding item") }} className='ghost'>
+                        <MMTooltip arrow title={"Add Category"} placement='top'>
+                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsCreatingCategory(true) }} className='ghost'>
                                 <Add className='mm-icon-btn add-icon' />
                             </button>
                         </MMTooltip>
@@ -61,13 +94,14 @@ const MenuTypeAccordion = (props) => {
                 <AccordionDetails
                     className='mt-acc-details'
                 >
+                    {isCreatingCategory ? <CreateCategoryForm data={data} cancelCategoryCreation={() => setIsCreatingCategory(false)} refreshCategoryDetails={refreshCategoryDetails} /> : <></>}
                     {
                         isLoading ? <MMLoader /> :
                             categoryList?.length > 0 ?
                                 categoryList?.map((cat) => {
-                                    return <CategoryItem data={cat} />
+                                    return <CategoryItem data={cat} refreshCategoryDetails={refreshCategoryDetails} />
                                 })
-                                : <NoDataComponent imgClassName="small" />
+                                : <CreateCategoryForm data={data} cancelCategoryCreation={() => setIsCreatingCategory(false)} refreshCategoryDetails={refreshCategoryDetails} />
                     }
                 </AccordionDetails>
             </Accordion>

@@ -4,6 +4,16 @@
     .upload-btn {
         color: $dark-grey;
         border: 1px solid $grey;
+        width: 200px;
+        height: 150px;
+        max-height: 150px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            overflow: hidden;
+        }
     }
     .menu-item-details {
         width: 25%;
@@ -13,6 +23,36 @@
         .menu-item-input {
             &::after {
                 border-color: $mm-orange;
+            }
+        }
+        .ingredient-chip {
+            border: 1px solid rgba($mm-orange, 0.7);
+            background-color: rgba($mm-yellow, 0.3);
+            .MuiChip-deleteIcon {
+                color: $mm-orange;
+            }
+        }
+        .ingredient-input {
+            max-height: 6rem;
+            height: 6rem;
+            .MuiInputBase-root.MuiInput-root {
+                overflow: hidden scroll;
+                gap: 6px;
+                height: 100%;
+                padding: 6px 0px;
+                border-bottom: 1px solid #0000006b;
+                transition: all 0.3s;
+                -webkit-transition: all 0.3s;
+                &:hover {
+                    border-bottom: 2px solid #000000de;
+                }
+                &::after,
+                &::before {
+                    display: none;
+                }
+                &.Mui-focused {
+                    border-color: #fd9c31;
+                }
             }
         }
         .veg-toggle {

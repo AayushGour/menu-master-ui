@@ -41,7 +41,7 @@ const MMHeader = (props) => {
                     className='header-btn'
                     onClick={handleProfileMenuClick}
                 >
-                    Logout
+                    <img className='h-100' src={localStorage.getItem('PhotoUrl')} referrerpolicy="no-referrer" />
                 </Avatar>
                 <Menu
                     id="profile-menu"

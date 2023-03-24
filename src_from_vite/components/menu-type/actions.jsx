@@ -27,3 +27,55 @@ export const getCategoryDetails = async (params) => {
     }
     return axios(config);
 }
+
+export const createCategory = async (params) => {
+    const config = {
+        url: baseUrl + categoryRoute,
+        method: 'post',
+        data: {
+            ...params,
+            userid: localStorage.getItem('userID'),
+            action: apiActions.CREATE,
+        }
+    }
+    return axios(config);
+}
+
+export const updateCategory = async (params) => {
+    const config = {
+        url: baseUrl + categoryRoute,
+        method: 'post',
+        data: {
+            ...params,
+            // userid: localStorage.getItem('userID'),
+            action: apiActions.UPDATE,
+        }
+    }
+    return axios(config);
+}
+
+export const createMenuItem = async (params) => {
+    const config = {
+        url: baseUrl + menuRoute,
+        method: 'post',
+        data: {
+            ...params,
+            userid: localStorage.getItem('userID'),
+            action: apiActions.CREATE,
+        }
+    }
+    return axios(config);
+}
+
+export const updateMenuItem = async (params) => {
+    const config = {
+        url: baseUrl + menuRoute,
+        method: 'post',
+        data: {
+            ...params,
+            action: apiActions.UPDATE,
+        }
+    }
+    return axios(config);
+}
+

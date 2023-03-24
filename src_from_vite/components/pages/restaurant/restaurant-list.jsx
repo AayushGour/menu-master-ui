@@ -6,6 +6,7 @@ import { apiActions } from '../../../utility/constants';
 import MMLoader from '../../../utility/loader/mm-loader';
 import NoDataComponent from '../../../utility/no-data-component/no-data-component';
 import BrandForm from '../../forms/brand-form';
+import MenuTypeForm from '../../forms/menu-type-form';
 import PlanForm from '../../forms/plan-form';
 import RestaurantForm from '../../forms/restaurant-form';
 import MenuTypeAccordion from '../../menu-type/menu-type-accordion';
@@ -61,6 +62,11 @@ const RestaurantListPage = (props) => {
     const handleRestaurantSelection = (restId, brandId) => {
         setIsLoading(true);
         setSelectedRestaurant(restId);
+        refreshMenuTypeList(restId, brandId)
+    }
+
+    const refreshMenuTypeList = (restId, brandId) => {
+        setIsLoading(true);
         const menuTypeParams = {
             brandid: brandId,
             restid: restId,
@@ -70,6 +76,7 @@ const RestaurantListPage = (props) => {
         }).finally(() => {
             setIsLoading(false);
         });
+
     }
 
     // if (isLoading) {
@@ -120,15 +127,16 @@ const RestaurantListPage = (props) => {
                                 :
                                 menuTypeList?.length > 0 ? menuTypeList?.map((mt, index) => {
                                     return (
-                                        <MenuTypeAccordion key={index} data={mt} />
+                                        <MenuTypeAccordion key={index} data={mt} refreshMenuTypeList={refreshMenuTypeList} />
                                     )
                                 }) :
                                     <NoDataComponent
                                         content={
                                             <>
-                                                <span>Oops!! Looks like there are no Menu Items available.</span>
+                                                <span>Oops!! Looks like there are no Menu Types available.</span>
                                                 <br />
-                                                <button className='mm-btn primary mt-3'>Create Menu Item</button>
+                                                {/* <button className='mm-btn primary mt-3'>Create Menu Type</button> */}
+                                                <MenuTypeForm refreshMenuTypeList={refreshMenuTypeList} data={restaurantList?.find((r) => r?.restid === selectedRestaurant)} />
                                             </>
                                         }
                                     />

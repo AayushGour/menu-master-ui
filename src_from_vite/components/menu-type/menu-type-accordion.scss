@@ -5,6 +5,7 @@
         margin: 10px !important;
         border: 1px solid $light-grey;
         .mt-acc-header {
+            background-color: $white !important;
             .expand-icon {
                 font-size: 1.9rem;
                 margin: auto 5px;
@@ -16,7 +17,7 @@
                 margin: auto;
             }
             .mt-acc-header-content {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 text-transform: capitalize;
             }
         }
