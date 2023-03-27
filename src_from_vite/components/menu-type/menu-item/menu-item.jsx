@@ -90,13 +90,15 @@ const MenuItemComponent = (props) => {
                     <p title={item?.ingredients} className='para-text mt-2 menu-item-ingredients w-25 text-start mb-0'><b>Ingredients: </b>{item?.ingredients || "-"}</p>
                     <div className="d-flex flex-row align-items-start w-25 justify-content-between">
                         {editItemParam?.name === "spice" ?
-                            <FormControl>
+                            <FormControl variant='standard' className='select-brand-control'>
                                 <InputLabel id="spice-level-label">Spice</InputLabel>
                                 <Select
                                     defaultOpen={true}
+                                    className="mm-select"
                                     labelId="spice-level-label"
                                     value={editItemParam?.value}
                                     label="Spice"
+                                    variant='standard'
                                     onChange={(e) => handleEditItemParam({ name: "spice", value: e?.target?.value })}
                                     onBlur={() => handleEditItemParam()}
                                 >

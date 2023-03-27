@@ -24,8 +24,8 @@ const RestaurantForm = (props) => {
                 <>
                     <div className="d-flex flex-row align-items-center w-100">
                         <TextField className='w-50 me-3' label="Restaurant Name" variant="standard" onChange={(e) => handleChange('rest', e?.target?.value)} />
-                        <FormControl className='w-50 mt-auto ms-3 select-brand-control'>
-                            <InputLabel style={{ left: "-15px" }}>Select Brand</InputLabel>
+                        <FormControl variant='standard' className='w-50 mt-auto ms-3 select-brand-control'>
+                            <InputLabel >Select Brand</InputLabel>
                             <Select
                                 className='mm-select h-100'
                                 variant='standard'

@@ -5,7 +5,7 @@ import DraggableList from 'react-draggable-list';
 import MMLoader from '../../../utility/loader/mm-loader';
 import MMTooltip from '../../../utility/mm-tooltip';
 import NoDataComponent from '../../../utility/no-data-component/no-data-component';
-import { createMenuItem, getMenuDetails, updateCategory } from '../actions';
+import { createMenuItem, getMenuDetails, updateCategory, updateMenuItem } from '../actions';
 import MenuItemComponent from '../menu-item/menu-item';
 import MenuItemEditComponent from '../menu-item/menu-item-edit';
 
@@ -59,6 +59,19 @@ const CategoryItem = (props) => {
         })
     }
 
+    const handleMenuListReorder = (newList, movedItem, oldIndex, newIndex) => {
+        console.log("new list", newList, movedItem, oldIndex, newIndex);
+        const newItem = Object.assign({}, movedItem, { rank: newIndex });
+        setIsLoading(true)
+        const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage"]
+        Object.keys(newItem)?.map((key) => !paramsList.includes(key) ? delete newItem[key] : null)
+        updateMenuItem(newItem).then(() => {
+            refreshMenuDetails();
+        }).finally(() => {
+            setIsLoading(false)
+        })
+    }
+
     return (
         <div className='category-item ms-2'>
             {isLoading ? <MMLoader className="overlay" /> : <></>}
@@ -108,8 +121,9 @@ const CategoryItem = (props) => {
                         <DraggableList
                             itemKey="menuid"
                             container={() => dragListRef?.current || document.body}
+                            // list={menuItemList?.sort((a, b) => a?.rank - b?.rank)}
                             list={menuItemList}
-                            onMoveEnd={(newList, movedItem, oldIndex, newIndex) => console.log("new List", newList, movedItem, oldIndex, newIndex)}
+                            onMoveEnd={(newList, movedItem, oldIndex, newIndex) => handleMenuListReorder(newList, movedItem, oldIndex, newIndex)}
                             template={(templateProps) => <MenuItemComponent refreshMenuDetails={refreshMenuDetails} {...templateProps} />}
                         />
                         <Divider><MoreHoriz /></Divider>
