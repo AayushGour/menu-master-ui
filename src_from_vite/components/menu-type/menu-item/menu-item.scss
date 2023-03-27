@@ -5,6 +5,8 @@
         cursor: move;
     }
     .item-image {
+        // background-color: $grey;
+        border: 1px solid $grey;
         img {
             object-fit: contain;
         }

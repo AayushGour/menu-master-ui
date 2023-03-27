@@ -1,3 +1,4 @@
+import { QrCode2 } from '@mui/icons-material';
 import { Dialog, Divider, MenuItem, Select, Step, StepLabel, Stepper } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -120,11 +121,11 @@ const RestaurantListPage = (props) => {
     const brandBackground = false;
     return (
         <div className="restaurant-list-page h-100 w-100">
-            <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={() => setIsCreateBrandCardOpen(false)}>
+            {/* <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={() => setIsCreateBrandCardOpen(false)}>
                 <CreateBrandCard refreshBrandList={refreshBrandList} className="w-100" />
-            </Dialog>
+            </Dialog> */}
             <Dialog className='create-brand-dialog' open={isCreateRestCardOpen} onClose={() => setIsCreateRestCardOpen(false)}>
-                <RestaurantForm details={newRestDetails} brandList={brandList} type="rest" onValueChange={setNewRestDetails} onSubmit={handleRestaurantCreation} className="w-100 px-5 py-4" onCancel={() => { setIsCreateRestCardOpen(false); setNewRestDetails({}); }} refreshBrandList={refreshBrandList} />
+                <RestaurantForm selectedBrand={selectedBrand} details={newRestDetails} brandList={brandList} type="rest" onValueChange={setNewRestDetails} onSubmit={handleRestaurantCreation} className="w-100 px-5 py-4" onCancel={() => { setIsCreateRestCardOpen(false); setNewRestDetails({}); }} refreshBrandList={refreshBrandList} />
             </Dialog>
             {isLoading ? <MMLoader className="overlay" /> : <></>}
             <div
@@ -143,8 +144,9 @@ const RestaurantListPage = (props) => {
                     })}
                 </Select>
                 <div className="d-flex flex-row align-items-center justify-content-end gap-3">
-                    <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button>
+                    {/* <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button> */}
                     <button className='mm-btn mx-0' onClick={() => setIsCreateRestCardOpen(true)}>Create Restaurant</button>
+                    <button className='mm-btn mx-0' title="Generate QR Code"><QrCode2 /></button>
                 </div>
             </div>
             <div className="restaurants-list-container flex-grow-1">

@@ -34,6 +34,7 @@
                 }
                 .MuiSelect-select {
                     text-transform: capitalize;
+                    font-weight: 600;
                 }
                 .MuiSvgIcon-root {
                     color: $mm-orange;
@@ -42,9 +43,9 @@
         }
     }
     .restaurants-list-container {
-        margin: 20px 20px 15px 20px;
+        margin: 0px 20px 15px 20px;
         overflow: hidden;
-        background-color: $white;
+        background-color: $card-white;
         display: flex;
         flex-direction: row;
         align-items: flex-start;
@@ -85,7 +86,10 @@
                     //     width: 6px;
                     //     background-color: $mm-orange;
                     // }
-                    box-shadow: 2px 2px 4px $mm-orange;
+                    // box-shadow: 2px 2px 4px $mm-orange;
+                    background-color: $mm-orange;
+                    color: $white;
+                    font-weight: 500;
                 }
             }
         }

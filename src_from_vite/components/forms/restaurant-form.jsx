@@ -3,7 +3,7 @@ import React from 'react';
 import PlanForm from './plan-form';
 
 const RestaurantForm = (props) => {
-    const { details, onValueChange, className, type, onCancel, onSubmit, brandList } = props;
+    const { details, onValueChange, className, type, onCancel, onSubmit, brandList, selectedBrand } = props;
     const handleChange = (key, value) => {
         const formDetails = {
             [key]: value
@@ -29,6 +29,7 @@ const RestaurantForm = (props) => {
                             <Select
                                 className='mm-select h-100'
                                 variant='standard'
+                                defaultValue={selectedBrand}
                                 onChange={(e) => handleChange('brandid', e.target.value)}
                             // label="Select Brand"
                             >

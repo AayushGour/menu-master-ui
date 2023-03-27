@@ -1,5 +1,5 @@
 import { DragIndicator, ImageNotSupported, MoreVert } from '@mui/icons-material';
-import { Avatar, Chip, Menu, MenuItem } from '@mui/material';
+import { Avatar, Chip, FormControl, InputLabel, Menu, MenuItem, Select, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import NonVegImg from "../../../assets/img/non-veg.png";
 import VegImg from "../../../assets/img/veg.png";
@@ -16,6 +16,7 @@ import MMLoader from '../../../utility/loader/mm-loader';
 const MenuItemComponent = (props) => {
     const { item, itemSelected, dragHandleProps, refreshMenuDetails } = props;
     const [isMenuItemEditing, setIsMenuItemEditing] = useState(false);
+    const [editItemParam, setEditItemParam] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -46,6 +47,13 @@ const MenuItemComponent = (props) => {
         });
     };
 
+    const handleEditItemParam = (editedItem = editItemParam) => {
+        if (editedItem?.value !== item?.[editedItem?.name]) {
+            const newItem = Object.assign({}, item, { [editItemParam?.name]: editedItem?.value })
+            handleMenuItemUpdate(newItem);
+        }
+        setEditItemParam({})
+    }
 
     if (isMenuItemEditing) {
         return <MenuItemEditComponent
@@ -66,21 +74,48 @@ const MenuItemComponent = (props) => {
                 <div className="d-flex flex-row justify-content-between align-items-center w-100">
                     <div className="d-flex flex-row justify-content-start align-items-center gap-2">
                         <Avatar sx={{ height: 20, width: 20 }} variant='square' src={item?.veg === 1 ? VegImg : NonVegImg} />
-                        <h4 className='mb-0'>{item?.menu}</h4>
+                        {editItemParam?.name === "menu" ?
+                            <TextField autoFocus variant='standard' required={true} className='menu-item-input' onBlur={() => handleEditItemParam()} value={editItemParam?.value} onChange={(e) => { setEditItemParam({ ...editItemParam, value: e?.target?.value }) }} placeholder="Enter item title" label="Item Title" />
+                            : <h4 style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: 'menu', value: item?.menu })} className='mb-0'>{item?.menu}</h4>}
                     </div>
-                    <h4 className='mb-0'>₹ {item?.price}</h4>
+                    {editItemParam?.name === "price" ?
+                        <TextField autoFocus variant='standard' className='menu-item-input' type="number" placeholder='Enter Price' onBlur={() => handleEditItemParam()} value={editItemParam?.value} onChange={(e) => setEditItemParam({ name: "price", value: e?.target?.value })} label="Price" />
+
+                        :
+                        <h4 style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: 'price', value: item?.price })} className='mb-0'>₹ {item?.price}</h4>
+                    }
                 </div>
                 <div className="d-flex flex-row justify-content-start align-items-start w-100 ps-4 ms-1 gap-3">
-                    <p title={item?.description} className='para-text mt-2 menu-item-description w-50 text-start mb-0'><b>Description: </b>{item?.description || "-"}</p>
+                    <p title={item?.description} className='para-text mt-2 menu-item-description w-50 text-start mb-0'>{item?.description || "-"}</p>
                     <p title={item?.ingredients} className='para-text mt-2 menu-item-ingredients w-25 text-start mb-0'><b>Ingredients: </b>{item?.ingredients || "-"}</p>
                     <div className="d-flex flex-row align-items-start w-25 justify-content-between">
-                        <div className='text-start mb-0 spice-detail d-flex flex-row align-items-center gap-2'>
-                            <b>Spice: </b>
-                            <MMTooltip arrow title={item?.spice} placement='right'>
-                                <Avatar sx={{ height: 40, width: 40 }} variant='square' src={item?.spice === 3 ? Spice3 : item?.spice === 2 ? Spice2 : item?.spice === 1 ? Spice1 : NoSpiceImg} />
-                            </MMTooltip>
-                        </div>
+                        {editItemParam?.name === "spice" ?
+                            <FormControl>
+                                <InputLabel id="spice-level-label">Spice</InputLabel>
+                                <Select
+                                    defaultOpen={true}
+                                    labelId="spice-level-label"
+                                    value={editItemParam?.value}
+                                    label="Spice"
+                                    onChange={(e) => handleEditItemParam({ name: "spice", value: e?.target?.value })}
+                                    onBlur={() => handleEditItemParam()}
+                                >
+                                    <MenuItem value={0}>Not Spicy</MenuItem>
+                                    <MenuItem value={1}>Low</MenuItem>
+                                    <MenuItem value={2}>Medium</MenuItem>
+                                    <MenuItem value={3}>Hot</MenuItem>
+                                </Select>
+                            </FormControl>
+                            :
+                            <div className='text-start mb-0 spice-detail d-flex flex-row align-items-center gap-2'>
+                                <b>Spice: </b>
+                                <MMTooltip arrow title={item?.spice === 3 ? "Hot" : item?.spice === 2 ? "Medium" : item?.spice === 1 ? "Low" : "Not spicy"} placement='right'>
+                                    <Avatar style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: "spice", value: item?.spice })} sx={{ height: 40, width: 40 }} variant='square' src={item?.spice === 3 ? Spice3 : item?.spice === 2 ? Spice2 : item?.spice === 1 ? Spice1 : NoSpiceImg} />
+                                </MMTooltip>
+                            </div>
+                        }
                         <Chip
+                            className='my-auto'
                             label={item?.status1 === 1 ? "Available" : "Not Available"}
                             color={item?.status1 === 1 ? "success" : "error"}
                             onClick={() => { console.log(item?.status1) }}

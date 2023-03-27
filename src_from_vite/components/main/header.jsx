@@ -1,4 +1,4 @@
-import { Avatar, Menu, MenuItem } from '@mui/material';
+import { Avatar, Dialog, Menu, MenuItem } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -28,6 +28,9 @@ const MMHeader = (props) => {
 
     return (
         <div className='mm-header'>
+            {/* <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={() => setIsCreateBrandCardOpen(false)}>
+                <CreateBrandCard refreshBrandList={refreshBrandList} className="w-100" />
+            </Dialog> */}
             <a href={`${routeNames.DASHBOARD}/${routeNames.RESTAURANTS}`}>
                 <img src={MenuMasterLogo} alt="Menu Master Logo" />
             </a>
@@ -53,6 +56,7 @@ const MMHeader = (props) => {
                     }}
                 >
                     <MenuItem disableTouchRipple >Hi {localStorage.getItem("Name")}</MenuItem>
+                    <MenuItem disableTouchRipple disabled >Create Brand</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
             </div>
