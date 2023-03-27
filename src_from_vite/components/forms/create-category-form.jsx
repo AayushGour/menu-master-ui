@@ -25,7 +25,7 @@ const CreateCategoryForm = (props) => {
         <div className="w-auto d-flex flex-column mt-3 ms-2 me-3">
             <h5 style={{ fontSize: "1.2rem" }} className='text-start'>Create Category</h5>
             <div className='d-flex flex-row align-items-center gap-2 mt-3'>
-                <TextField className='w-50 mx-3' required={true} label="Menu Type" variant="standard" onChange={(e) => setCategoryTitle(e?.target?.value)} />
+                <TextField className='w-50 mx-3' required={true} label="Category" variant="standard" onChange={(e) => setCategoryTitle(e?.target?.value)} />
                 <TextField className='w-50 mx-3' label="Notes" multiline rows={1} variant="standard" onChange={(e) => setNotes(e?.target?.value)} />
             </div>
             <div className="d-flex flex-row justify-content-end align-items-center gap-3 mt-4 me-3">
