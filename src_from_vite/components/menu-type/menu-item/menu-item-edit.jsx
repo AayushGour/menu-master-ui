@@ -19,7 +19,7 @@ const MenuItemEditComponent = (props) => {
     const [itemDescription, setItemDescription] = useState(data?.description || "");
     const [itemPrice, setItemPrice] = useState(data?.price);
     const [itemIngredients, setItemIngredients] = useState(data?.ingredients?.split(", ") || []);
-    const [availability, setAvailability] = useState(Boolean(data?.status1) ?? true);
+    const [availability, setAvailability] = useState(Boolean(data?.status1) || true);
     const [nonVeg, setNonVeg] = useState(!Boolean(data?.veg) ?? true);
     const [spiceLevel, setSpiceLevel] = useState(data?.spice || 0);
 
@@ -38,8 +38,7 @@ const MenuItemEditComponent = (props) => {
             price: itemPrice || 0,
             notes: "",
             MImage: imageUrl,
-            status1: 1,
-            availability: availability,
+            status1: Number(availability),
             ingredients: itemIngredients?.join(", "),
             veg: Number(!nonVeg),
             spice: spiceLevel,

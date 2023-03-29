@@ -26,6 +26,7 @@ const RestaurantListPage = (props) => {
     const [isCreateBrandCardOpen, setIsCreateBrandCardOpen] = useState(false);
     const [isCreateRestCardOpen, setIsCreateRestCardOpen] = useState(false);
     const [newRestDetails, setNewRestDetails] = useState("");
+    const [isCreatingMT, setIsCreatingMT] = useState(false);
     useEffect(() => {
         refreshBrandList();
     }, [])
@@ -79,7 +80,8 @@ const RestaurantListPage = (props) => {
             restid: restId,
         };
         getMenuTypeDetails(menuTypeParams).then((mtResp) => {
-            setMenuTypeList(mtResp?.data)
+            setMenuTypeList(mtResp?.data);
+            setIsCreatingMT(false);
         }).finally(() => {
             setIsLoading(false);
         });
@@ -124,6 +126,9 @@ const RestaurantListPage = (props) => {
             {/* <Dialog className='create-brand-dialog' open={isCreateBrandCardOpen} onClose={() => setIsCreateBrandCardOpen(false)}>
                 <CreateBrandCard refreshBrandList={refreshBrandList} className="w-100" />
             </Dialog> */}
+            <Dialog className='create-mt-dialog' open={isCreatingMT} onClose={() => setIsCreatingMT(false)}>
+                <MenuTypeForm refreshMenuTypeList={refreshMenuTypeList} data={restaurantList?.find((r) => r?.restid === selectedRestaurant)} />
+            </Dialog>
             <Dialog className='create-brand-dialog' open={isCreateRestCardOpen} onClose={() => setIsCreateRestCardOpen(false)}>
                 <RestaurantForm selectedBrand={selectedBrand} details={newRestDetails} brandList={brandList} type="rest" onValueChange={setNewRestDetails} onSubmit={handleRestaurantCreation} className="w-100 px-5 py-4" onCancel={() => { setIsCreateRestCardOpen(false); setNewRestDetails({}); }} refreshBrandList={refreshBrandList} />
             </Dialog>
@@ -146,6 +151,7 @@ const RestaurantListPage = (props) => {
                 <div className="d-flex flex-row align-items-center justify-content-end gap-3">
                     {/* <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button> */}
                     <button className='mm-btn mx-0' onClick={() => setIsCreateRestCardOpen(true)}>Create Restaurant</button>
+                    <button className='mm-btn mx-0' onClick={() => setIsCreatingMT(true)}>Create Menu Type</button>
                     {/* <button className='mm-btn mx-0' title="Generate QR Code"><QrCode2 /></button> */}
                 </div>
             </div>

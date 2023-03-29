@@ -30,7 +30,7 @@ const CreateCategoryForm = (props) => {
             </div>
             <div className="d-flex flex-row justify-content-end align-items-center gap-3 mt-4 me-3">
                 <button onClick={cancelCategoryCreation} className='mm-btn m-0'>Cancel</button>
-                <button disabled={categoryTitle === ""} onClick={handleFormSubmit} className='mm-btn primary m-0'>Create Menu Type</button>
+                <button disabled={categoryTitle === ""} onClick={handleFormSubmit} className='mm-btn primary m-0'>Create Category</button>
             </div>
         </div>
     )

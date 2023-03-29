@@ -31,7 +31,7 @@ const MenuItemComponent = (props) => {
 
     const handleMenuItemUpdate = (submitParams) => {
         setIsLoading(true)
-        const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage"]
+        const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage", "status1", "rank1"]
         Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
         updateMenuItem(submitParams).then(() => {
             refreshMenuDetails();
@@ -57,7 +57,7 @@ const MenuItemComponent = (props) => {
 
     const handleAvailabilityToggle = () => {
         setIsLoading(true)
-        const submitParams = Object.assign({}, item, { status1: item?.status1 === 0 ? 1 : 0 })
+        const submitParams = Object.assign({}, item, { status1: Number(!Boolean(item?.status1)) })
         const paramsList = ["menuid", "brandid", "status1"]
         Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
         updateMenuItemAvailability(submitParams).then(() => {
@@ -90,7 +90,7 @@ const MenuItemComponent = (props) => {
                             <TextField autoFocus variant='standard' required={true} className='menu-item-input' onBlur={() => handleEditItemParam()} value={editItemParam?.value} onChange={(e) => { setEditItemParam({ ...editItemParam, value: e?.target?.value }) }} placeholder="Enter item title" label="Item Title" />
                             :
                             <MMTooltip arrow title={"Click to edit"} placement='right'>
-                                <h4 style={{ cursor: "pointer" }} title="Click to edit" onClick={() => setEditItemParam({ name: 'menu', value: item?.menu })} className='mb-0'>{item?.menu}</h4>
+                                <h4 style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: 'menu', value: item?.menu })} className='mb-0'>{item?.menu}</h4>
                             </MMTooltip>
                         }
                     </div>
@@ -99,7 +99,7 @@ const MenuItemComponent = (props) => {
 
                         :
                         <MMTooltip arrow title={"Click to edit"} placement='left'>
-                            <h4 style={{ cursor: "pointer" }} title="Click to edit" onClick={() => setEditItemParam({ name: 'price', value: item?.price })} className='mb-0'>₹ {item?.price}</h4>
+                            <h4 style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: 'price', value: item?.price })} className='mb-0'>₹ {item?.price}</h4>
                         </MMTooltip>
                     }
                 </div>
