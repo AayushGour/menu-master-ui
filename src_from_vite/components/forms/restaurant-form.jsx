@@ -43,7 +43,7 @@ const RestaurantForm = (props) => {
                     <div className="d-flex flex-row align-items-center w-100 justify-content-end gap-3 mt-4">
                         <button className='mm-btn m-0' onClick={handleCancel}>Cancel</button>
                         {console.log(details?.rest)}
-                        <button disabled={(!details?.rest || details?.rest === "") || (!details?.brandid || details?.brandid === "") || (!details?.plan?.plan_id || details?.plan?.plan_id == "")} className='mm-btn primary m-0' onClick={handleSubmit}>Submit</button>
+                        <button disabled={(!details?.rest || details?.rest === "") /* || (!details?.brandid || details?.brandid === "")  */ || (!details?.plan?.plan_id || details?.plan?.plan_id == "")} className='mm-btn primary m-0' onClick={handleSubmit}>Submit</button>
                     </div>
                 </>
                 : <>

@@ -79,6 +79,30 @@ export const updateMenuItem = async (params) => {
     return axios(config);
 }
 
+export const updateMenuItemAvailability = async (params) => {
+    const config = {
+        url: baseUrl + menuRoute,
+        method: 'post',
+        data: {
+            ...params,
+            action: apiActions.AVAILABLE,
+        }
+    }
+    return axios(config);
+}
+
+export const rearrangeMenuItem = async (params) => {
+    const config = {
+        url: baseUrl + menuRoute,
+        method: 'post',
+        data: {
+            ...params,
+            action: apiActions.RANK,
+        }
+    }
+    return axios(config);
+}
+
 export const deleteMenuItem = async (params) => {
     const config = {
         url: baseUrl + menuRoute,

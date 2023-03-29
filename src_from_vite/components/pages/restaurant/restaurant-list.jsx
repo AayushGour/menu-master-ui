@@ -146,7 +146,7 @@ const RestaurantListPage = (props) => {
                 <div className="d-flex flex-row align-items-center justify-content-end gap-3">
                     {/* <button className='mm-btn mx-0' onClick={() => setIsCreateBrandCardOpen(true)}>Create Brand</button> */}
                     <button className='mm-btn mx-0' onClick={() => setIsCreateRestCardOpen(true)}>Create Restaurant</button>
-                    <button className='mm-btn mx-0' title="Generate QR Code"><QrCode2 /></button>
+                    {/* <button className='mm-btn mx-0' title="Generate QR Code"><QrCode2 /></button> */}
                 </div>
             </div>
             <div className="restaurants-list-container flex-grow-1">

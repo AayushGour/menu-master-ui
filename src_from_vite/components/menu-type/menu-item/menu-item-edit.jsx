@@ -30,7 +30,7 @@ const MenuItemEditComponent = (props) => {
         delete parentParams.cat;
         delete parentParams.menutype;
         delete parentParams.rest;
-        const imageUrl = fileList?.length > 0 ? await handleFileUpload(fileList?.[0]) : data?.MImage;
+        const imageUrl = fileList?.length > 0 ? await handleFileUpload(fileList?.[0]) : data?.MImage || "";
         const submitParams = {
             ...parentParams,
             menu: itemName,

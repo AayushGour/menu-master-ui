@@ -5,7 +5,7 @@ import DraggableList from 'react-draggable-list';
 import MMLoader from '../../../utility/loader/mm-loader';
 import MMTooltip from '../../../utility/mm-tooltip';
 import NoDataComponent from '../../../utility/no-data-component/no-data-component';
-import { createMenuItem, getMenuDetails, updateCategory, updateMenuItem } from '../actions';
+import { createMenuItem, getMenuDetails, rearrangeMenuItem, updateCategory, updateMenuItem } from '../actions';
 import MenuItemComponent from '../menu-item/menu-item';
 import MenuItemEditComponent from '../menu-item/menu-item-edit';
 
@@ -60,12 +60,12 @@ const CategoryItem = (props) => {
     }
 
     const handleMenuListReorder = (newList, movedItem, oldIndex, newIndex) => {
-        console.log("new list", newList, movedItem, oldIndex, newIndex);
-        const newItem = Object.assign({}, movedItem, { rank: newIndex });
-        setIsLoading(true)
-        const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage"]
+        setMenuItemList(newList?.map((item, index) => { item.rank1 = index; return item; }))
+        const newItem = Object.assign({}, movedItem, { rank1: newIndex });
+        setIsLoading(true);
+        const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage", "rank1"]
         Object.keys(newItem)?.map((key) => !paramsList.includes(key) ? delete newItem[key] : null)
-        updateMenuItem(newItem).then(() => {
+        rearrangeMenuItem(newItem).then(() => {
             refreshMenuDetails();
         }).finally(() => {
             setIsLoading(false)
@@ -75,7 +75,7 @@ const CategoryItem = (props) => {
     return (
         <div className='category-item ms-2'>
             {isLoading ? <MMLoader className="overlay" /> : <></>}
-            <div className="d-flex flex-row align-items-center justify-content-between pe-2 my-3">
+            {/* <div className="d-flex flex-row align-items-center justify-content-between pe-2 my-3">
                 {isCatEditing ?
                     <div className='w-50 d-flex flex-row align-items-center gap-2'>
                         <TextField className='w-75 me-3' required={true} value={catTitle} label="Category" variant="standard" onClick={(e) => { e.stopPropagation(); e.preventDefault(); }} onChange={(e) => setCatTitle(e?.target?.value)} />
@@ -105,7 +105,7 @@ const CategoryItem = (props) => {
                         </button>
                     </MMTooltip>
                 </div>
-            </div>
+            </div> */}
             {isMenuItemCreating ?
                 <MenuItemEditComponent data={data} cancelCreation={() => setIsMenuItemCreating(false)} submitForm={handleMenuItemCreation} />
                 : <></>}
@@ -116,20 +116,20 @@ const CategoryItem = (props) => {
                             return <MenuItemEditComponent data={menuItem} />
                         })
                     } */}
-                    <div className="drag-list-container" ref={dragListRef}>
+                    <div className="drag-list-container mt-3" ref={dragListRef}>
 
                         <DraggableList
                             itemKey="menuid"
                             container={() => dragListRef?.current || document.body}
-                            // list={menuItemList?.sort((a, b) => a?.rank - b?.rank)}
-                            list={menuItemList}
+                            list={menuItemList?.sort((a, b) => a?.rank1 - b?.rank1)}
+                            // list={menuItemList}
                             onMoveEnd={(newList, movedItem, oldIndex, newIndex) => handleMenuListReorder(newList, movedItem, oldIndex, newIndex)}
                             template={(templateProps) => <MenuItemComponent refreshMenuDetails={refreshMenuDetails} {...templateProps} />}
                         />
                         <Divider><MoreHoriz /></Divider>
                     </div>
                 </>
-                : <NoDataComponent />}
+                : <NoDataComponent imgClassName="mt-3" />}
         </div >
     )
 }

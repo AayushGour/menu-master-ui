@@ -6,7 +6,7 @@
         border: 1px solid $light-grey;
         .mt-acc-header {
             background-color: $white !important;
-            color: $mm-orange;
+            // color: $mm-orange;
             .expand-icon {
                 font-size: 1.9rem;
                 margin: auto 5px;
@@ -28,6 +28,8 @@
             }
         }
         .mt-acc-details {
+            // background-color: #fcc98438;
+            background-color: $card-white;
         }
     }
 }

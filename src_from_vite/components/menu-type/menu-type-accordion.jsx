@@ -5,8 +5,9 @@ import MMLoader from '../../utility/loader/mm-loader';
 import MMTooltip from '../../utility/mm-tooltip';
 import CreateCategoryForm from '../forms/create-category-form';
 import { updateMenuTypeDetails } from '../pages/restaurant/actions';
-import { getCategoryDetails } from './actions';
+import { createMenuItem, getCategoryDetails } from './actions';
 import CategoryItem from './category-item/category-item';
+import MenuItemEditComponent from './menu-item/menu-item-edit';
 import './menu-type-accordion.scss';
 
 const MenuTypeAccordion = (props) => {
@@ -17,6 +18,7 @@ const MenuTypeAccordion = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [IsMTEditing, setIsMTEditing] = useState(false);
     const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+    const [isMenuItemCreating, setIsMenuItemCreating] = useState(false);
     useEffect(() => {
         refreshCategoryDetails();
     }, []);
@@ -48,6 +50,22 @@ const MenuTypeAccordion = (props) => {
             setTimeout(() => {
                 refreshMenuTypeList(data?.restid, data?.brandid);
             }, 500)
+        })
+    }
+
+    const handleMenuItemCreation = (submitParams) => {
+        setIsLoading(true)
+        submitParams.cUser = localStorage.getItem('userID');
+        submitParams.favourite = 1;
+        submitParams.catid = categoryList?.[0]?.catid;
+
+        createMenuItem(submitParams).then(() => {
+            setIsMenuItemCreating(false);
+            refreshCategoryDetails();
+        }).catch(e => {
+            console.error(e);
+        }).finally(() => {
+            setIsLoading(false);
         })
     }
 
@@ -84,8 +102,13 @@ const MenuTypeAccordion = (props) => {
                                 <Edit className={`mm-icon-btn edit-icon me-2 ${IsMTEditing ? "disabled" : ""}`} />
                             </button>
                         </MMTooltip>
-                        <MMTooltip arrow title={"Add Category"} placement='top'>
+                        {/* <MMTooltip arrow title={"Add Category"} placement='top'>
                             <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsCreatingCategory(true) }} className='ghost'>
+                                <Add className='mm-icon-btn add-icon' />
+                            </button>
+                        </MMTooltip> */}
+                        <MMTooltip arrow title={"Add Menu Item"} placement='top'>
+                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsMenuItemCreating(true) }} className='ghost'>
                                 <Add className='mm-icon-btn add-icon' />
                             </button>
                         </MMTooltip>
@@ -94,6 +117,9 @@ const MenuTypeAccordion = (props) => {
                 <AccordionDetails
                     className='mt-acc-details'
                 >
+                    {isMenuItemCreating ?
+                        <MenuItemEditComponent data={data} cancelCreation={() => setIsMenuItemCreating(false)} submitForm={handleMenuItemCreation} />
+                        : <></>}
                     {isCreatingCategory ? <CreateCategoryForm data={data} cancelCategoryCreation={() => setIsCreatingCategory(false)} refreshCategoryDetails={refreshCategoryDetails} /> : <></>}
                     {
                         isLoading ? <MMLoader /> :

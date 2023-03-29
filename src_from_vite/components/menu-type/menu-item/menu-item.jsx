@@ -3,7 +3,7 @@ import { Avatar, Chip, FormControl, InputLabel, Menu, MenuItem, Select, TextFiel
 import React, { useState } from 'react';
 import NonVegImg from "../../../assets/img/non-veg.png";
 import VegImg from "../../../assets/img/veg.png";
-import { deleteMenuItem, updateMenuItem } from '../actions';
+import { deleteMenuItem, updateMenuItem, updateMenuItemAvailability } from '../actions';
 import MenuItemEditComponent from './menu-item-edit';
 import NoSpiceImg from "../../../assets/img/no-spice.png";
 import Spice1 from "../../../assets/img/spice-1.png";
@@ -55,6 +55,18 @@ const MenuItemComponent = (props) => {
         setEditItemParam({})
     }
 
+    const handleAvailabilityToggle = () => {
+        setIsLoading(true)
+        const submitParams = Object.assign({}, item, { status1: item?.status1 === 0 ? 1 : 0 })
+        const paramsList = ["menuid", "brandid", "status1"]
+        Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
+        updateMenuItemAvailability(submitParams).then(() => {
+            refreshMenuDetails();
+        }).finally(() => {
+            setIsLoading(false)
+        })
+    }
+
     if (isMenuItemEditing) {
         return <MenuItemEditComponent
             cancelCreation={() => setIsMenuItemEditing(false)}
@@ -70,19 +82,25 @@ const MenuItemComponent = (props) => {
             <Avatar className='item-image' sx={{ height: 100, width: 100 }} variant='square' src={item?.MImage} >
                 <ImageNotSupported sx={{ fontSize: "3rem" }} />
             </Avatar>
-            <div className="menu-details-header d-flex flex-column align-items-start flex-grow-1 gap-1 px-2 mt-2">
+            <div className="menu-details-header d-flex flex-column align-items-start flex-grow-1 gap-3 px-2 mt-2">
                 <div className="d-flex flex-row justify-content-between align-items-center w-100">
                     <div className="d-flex flex-row justify-content-start align-items-center gap-2">
                         <Avatar sx={{ height: 20, width: 20 }} variant='square' src={item?.veg === 1 ? VegImg : NonVegImg} />
                         {editItemParam?.name === "menu" ?
                             <TextField autoFocus variant='standard' required={true} className='menu-item-input' onBlur={() => handleEditItemParam()} value={editItemParam?.value} onChange={(e) => { setEditItemParam({ ...editItemParam, value: e?.target?.value }) }} placeholder="Enter item title" label="Item Title" />
-                            : <h4 style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: 'menu', value: item?.menu })} className='mb-0'>{item?.menu}</h4>}
+                            :
+                            <MMTooltip arrow title={"Click to edit"} placement='right'>
+                                <h4 style={{ cursor: "pointer" }} title="Click to edit" onClick={() => setEditItemParam({ name: 'menu', value: item?.menu })} className='mb-0'>{item?.menu}</h4>
+                            </MMTooltip>
+                        }
                     </div>
                     {editItemParam?.name === "price" ?
                         <TextField autoFocus variant='standard' className='menu-item-input' type="number" placeholder='Enter Price' onBlur={() => handleEditItemParam()} value={editItemParam?.value} onChange={(e) => setEditItemParam({ name: "price", value: e?.target?.value })} label="Price" />
 
                         :
-                        <h4 style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: 'price', value: item?.price })} className='mb-0'>₹ {item?.price}</h4>
+                        <MMTooltip arrow title={"Click to edit"} placement='left'>
+                            <h4 style={{ cursor: "pointer" }} title="Click to edit" onClick={() => setEditItemParam({ name: 'price', value: item?.price })} className='mb-0'>₹ {item?.price}</h4>
+                        </MMTooltip>
                     }
                 </div>
                 <div className="d-flex flex-row justify-content-start align-items-start w-100 ps-4 ms-1 gap-3">
@@ -112,16 +130,19 @@ const MenuItemComponent = (props) => {
                             <div className='text-start mb-0 spice-detail d-flex flex-row align-items-center gap-2'>
                                 <b>Spice: </b>
                                 <MMTooltip arrow title={item?.spice === 3 ? "Hot" : item?.spice === 2 ? "Medium" : item?.spice === 1 ? "Low" : "Not spicy"} placement='right'>
-                                    <Avatar style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: "spice", value: item?.spice })} sx={{ height: 40, width: 40 }} variant='square' src={item?.spice === 3 ? Spice3 : item?.spice === 2 ? Spice2 : item?.spice === 1 ? Spice1 : NoSpiceImg} />
+                                    <Avatar title="Click to edit" style={{ cursor: "pointer" }} onClick={() => setEditItemParam({ name: "spice", value: item?.spice })} sx={{ height: 40, width: 40 }} variant='square' src={item?.spice === 3 ? Spice3 : item?.spice === 2 ? Spice2 : item?.spice === 1 ? Spice1 : NoSpiceImg} />
                                 </MMTooltip>
                             </div>
                         }
-                        <Chip
-                            className='my-auto'
-                            label={item?.status1 === 1 ? "Available" : "Not Available"}
-                            color={item?.status1 === 1 ? "success" : "error"}
-                            onClick={() => { console.log(item?.status1) }}
-                        />
+
+                        <MMTooltip arrow title={"Click to toggle"} placement='left'>
+                            <Chip
+                                className='my-auto'
+                                label={item?.status1 === 1 ? "Available" : "Not Available"}
+                                color={item?.status1 === 1 ? "success" : "error"}
+                                onClick={handleAvailabilityToggle}
+                            />
+                        </MMTooltip>
                     </div>
                 </div>
             </div>
