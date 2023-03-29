@@ -104,8 +104,8 @@ const MenuItemComponent = (props) => {
                     }
                 </div>
                 <div className="d-flex flex-row justify-content-start align-items-start w-100 ps-4 ms-1 gap-3">
-                    <p title={item?.description} className='para-text mt-2 menu-item-description w-50 text-start mb-0'>{item?.description || "-"}</p>
-                    <p title={item?.ingredients} className='para-text mt-2 menu-item-ingredients w-25 text-start mb-0'><b>Ingredients: </b>{item?.ingredients || "-"}</p>
+                    <p title={item?.description} className='para-text mt-2 menu-item-description text-start mb-0'>{item?.description || "-"}</p>
+                    <p title={item?.ingredients} className='para-text mt-2 menu-item-ingredients flex-grow-1 w-25 text-start mb-0'><b>Ingredients: </b>{item?.ingredients || "-"}</p>
                     <div className="d-flex flex-row align-items-start w-25 justify-content-between">
                         {editItemParam?.name === "spice" ?
                             <FormControl variant='standard' className='select-brand-control'>

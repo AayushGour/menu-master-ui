@@ -1,6 +1,9 @@
 @import "../../../utility/variables.scss";
 
 .menu-item-edit-container {
+    background: $white;
+    box-shadow: 1px 1px 4px $black50;
+    border-radius: 5px;
     .upload-btn {
         color: $dark-grey;
         border: 1px solid $grey;

@@ -52,7 +52,7 @@ const MenuItemEditComponent = (props) => {
     }
 
     return (
-        <div className="menu-item-edit-container d-flex flex-row align-items-start gap-4 px-3 py-2 justify-content-between mb-4">
+        <div className="menu-item-edit-container d-flex flex-row align-items-start gap-4 p-3 justify-content-between my-3">
             <Button variant="text" component="label" className={`upload-btn d-flex flex-column gap-2 ${fileList?.length > 0 || (data?.MImage && data?.MImage !== "" && data?.MImage !== "null") ? "p-1" : "p-3"}`}>
                 {
                     fileList?.length > 0 ?

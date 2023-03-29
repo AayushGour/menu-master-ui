@@ -19,6 +19,11 @@
             object-fit: contain;
         }
     }
+    .menu-details-header {
+        .menu-item-description {
+            width: 35%;
+        }
+    }
     .spice-detail {
         .MuiAvatar-root {
             .MuiAvatar-img {

@@ -1,11 +1,11 @@
-import { Add, Close, Done, Edit, ExpandCircleDown } from '@mui/icons-material';
+import { Add, Close, Delete, Done, Edit, ExpandCircleDown } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MMLoader from '../../utility/loader/mm-loader';
 import MMTooltip from '../../utility/mm-tooltip';
 import CreateCategoryForm from '../forms/create-category-form';
 import { updateMenuTypeDetails } from '../pages/restaurant/actions';
-import { createMenuItem, getCategoryDetails } from './actions';
+import { createMenuItem, deleteMenuType, getCategoryDetails } from './actions';
 import CategoryItem from './category-item/category-item';
 import MenuItemEditComponent from './menu-item/menu-item-edit';
 import './menu-type-accordion.scss';
@@ -69,8 +69,23 @@ const MenuTypeAccordion = (props) => {
         })
     }
 
+    const handleMenuTypeDeletion = () => {
+        setIsLoading(true);
+        const deleteParams = {
+            mtid: data?.mtid,
+        }
+        deleteMenuType(deleteParams).then(() => {
+            setTimeout(() => {
+                refreshMenuTypeList(data?.restid, data?.brandid);
+            }, 500)
+        }).finally(() => {
+            setIsLoading(false);
+        })
+    }
+
     return (
         <div key={data?.mtid} className="menu-type-container">
+            {isLoading ? <MMLoader className='overlay' /> : <></>}
             <Accordion className='menu-type-accordion' defaultExpanded={true}>
                 <AccordionSummary
                     className='mt-acc-header'
@@ -96,10 +111,10 @@ const MenuTypeAccordion = (props) => {
                         <h5 className='mt-acc-header-content mb-0'>{data?.menutype}</h5>
                     }
 
-                    <div className='d-flex flex-row align-items-center my-auto'>
+                    <div className='d-flex flex-row align-items-center my-auto gap-2'>
                         <MMTooltip arrow title={"Edit Type"} placement='top'>
                             <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsMTEditing(true) }} className='ghost'>
-                                <Edit className={`mm-icon-btn edit-icon me-2 ${IsMTEditing ? "disabled" : ""}`} />
+                                <Edit className={`mm-icon-btn edit-icon ${IsMTEditing ? "disabled" : ""}`} />
                             </button>
                         </MMTooltip>
                         {/* <MMTooltip arrow title={"Add Category"} placement='top'>
@@ -110,6 +125,11 @@ const MenuTypeAccordion = (props) => {
                         <MMTooltip arrow title={"Add Menu Item"} placement='top'>
                             <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setIsMenuItemCreating(true) }} className='ghost'>
                                 <Add className='mm-icon-btn add-icon' />
+                            </button>
+                        </MMTooltip>
+                        <MMTooltip arrow title={"Delete Menu Type"} placement='top'>
+                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleMenuTypeDeletion(); }} className='ghost'>
+                                <Delete className='mm-icon-btn add-icon' />
                             </button>
                         </MMTooltip>
                     </div>

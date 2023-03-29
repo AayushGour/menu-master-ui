@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl, categoryRoute, menuRoute } from "../../utility/api-urls";
+import { baseUrl, categoryRoute, menuRoute, menuTypeRoute } from "../../utility/api-urls";
 import { apiActions } from "../../utility/constants";
 
 export const getMenuDetails = async (params) => {
@@ -115,3 +115,14 @@ export const deleteMenuItem = async (params) => {
     return axios(config);
 }
 
+export const deleteMenuType = async (params) => {
+    const config = {
+        url: baseUrl + menuTypeRoute,
+        method: 'post',
+        data: {
+            ...params,
+            action: apiActions.DELETE,
+        }
+    }
+    return axios(config);
+}
