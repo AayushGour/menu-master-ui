@@ -66,11 +66,12 @@ const CategoryItem = (props) => {
     const handleMenuListReorder = (newList, movedItem, oldIndex, newIndex) => {
         setMenuItemList(newList?.map((item, index) => { item.rank1 = index; return item; }))
         const newItem = Object.assign({}, movedItem, { rank1: newIndex + 1 });
-        setIsLoading(true);
+        // setIsLoading(true);
         const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage", "rank1"]
         Object.keys(newItem)?.map((key) => !paramsList.includes(key) ? delete newItem[key] : null)
         rearrangeMenuItem(newItem).then(() => {
-            refreshMenuDetails();
+            // refreshMenuDetails();
+            // updateMenuDetails(newItem);
         }).finally(() => {
             setIsLoading(false)
         })
