@@ -14,3 +14,8 @@ export const routeNames = {
     RESTAURANTS: "restaurants",
     USERS: "users",
 }
+
+export const razorpayDetails = {
+    RAZORPAY_KEY_ID: "rzp_test_Bc9MsRaw1dwKLG",
+    RAZORPAY_SECRET: "bbOGSopn0tDYUCtzwuVkV0ob",
+}

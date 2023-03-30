@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { baseUrl, brandRoute, menuRoute, menuTypeRoute, restaurantRoute } from "../../../utility/api-urls";
+import { baseUrl, brandRoute, menuTypeRoute, ordersRoute, restaurantRoute } from "../../../utility/api-urls";
 import { apiActions } from "../../../utility/constants";
 import { storage } from "../auth/firebase";
 
@@ -109,4 +109,15 @@ export const handleFileUpload = async (imageUrl) => {
     const path = await getDownloadURL(snapshot.ref);
 
     return path
+}
+
+export const createOrder = async (params) => {
+    const config = {
+        url: baseUrl + ordersRoute,
+        method: 'post',
+        data: {
+            ...params
+        }
+    }
+    return axios(config);
 }

@@ -1,22 +1,18 @@
-import { QrCode2 } from '@mui/icons-material';
-import { Dialog, Divider, MenuItem, Select, Step, StepLabel, Stepper } from '@mui/material';
-import axios from 'axios';
+import { Dialog, Divider, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { baseUrl, brandRoute } from '../../../utility/api-urls';
-import { apiActions } from '../../../utility/constants';
+import useRazorpay from 'react-razorpay';
 import MMLoader from '../../../utility/loader/mm-loader';
 import NoDataComponent from '../../../utility/no-data-component/no-data-component';
-import BrandForm from '../../forms/brand-form';
 import MenuTypeForm from '../../forms/menu-type-form';
-import PlanForm from '../../forms/plan-form';
 import RestaurantForm from '../../forms/restaurant-form';
 import MenuTypeAccordion from '../../menu-type/menu-type-accordion';
-import { createRestaurant, getBrandList, getMenuTypeDetails, getRestaurantsList } from './actions';
+import { createOrder, getBrandList, getMenuTypeDetails, getRestaurantsList } from './actions';
 import CreateBrandCard from './create-brand-card';
 import "./restaurant-list.scss";
 
 
 const RestaurantListPage = (props) => {
+    const Razorpay = useRazorpay();
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedRestaurant, setSelectedRestaurant] = useState('');
     const [brandList, setBrandList] = useState([]);
@@ -87,24 +83,73 @@ const RestaurantListPage = (props) => {
         });
     }
 
-    const handleRestaurantCreation = () => {
+    const handleRestaurantCreation = async () => {
         console.log(newRestDetails)
-        const restParams = {
-            brandid: newRestDetails?.brandid,
-            RImage: "",
-            rest: newRestDetails?.rest,
-            notes: "",
-            favourite: 0,
-            status1: 1,
-            rank1: 1,
-            plan_id: newRestDetails?.plan?.plan_id,
-            plan_name: newRestDetails?.plan?.plan_name
+        const orderParams = {
+            amount: Number(newRestDetails?.plan?.price) * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
         }
-        createRestaurant(restParams).finally(() => {
-            refreshBrandList();
-            // setIsLoading(false);
-            setIsCreateRestCardOpen(false)
-        })
+        const orderDetails = await createOrder(orderParams);
+        // const orderDetails = {
+        //     "id": "order_LXgNmJ7LXUx3RC",
+        //     "entity": "order",
+        //     "amount": 1000,
+        //     "amount_paid": 0,
+        //     "amount_due": 1000,
+        //     "currency": "INR",
+        //     "receipt": "receipt_order_74394",
+        //     "offer_id": null,
+        //     "status": "created",
+        //     "attempts": 0,
+        //     "notes": [],
+        //     "created_at": 1680167699
+        // }
+        const { amount, id: orderId, currency } = orderDetails;
+        const razorpayOptions = {
+            key: "rzp_test_Bc9MsRaw1dwKLG", // Enter the Key ID generated from the Dashboard
+            amount: amount?.toString(), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: currency,
+            name: "MenuMaster",
+            description: "Thank You!!",
+            image: "https://firebasestorage.googleapis.com/v0/b/restaurant-a841c.appspot.com/o/images%2FImage1680167938902?alt=media&token=4125436b-aa64-4f87-b8b0-b786ea90e7a6",
+            order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
+            handler: function (response) {
+                console.log(response)
+                // alert(response.razorpay_payment_id);
+                // alert(response.razorpay_order_id);
+                // alert(response.razorpay_signature);
+                const restParams = {
+                    brandid: newRestDetails?.brandid,
+                    RImage: "",
+                    rest: newRestDetails?.rest,
+                    notes: "",
+                    favourite: 0,
+                    status1: 1,
+                    rank1: 1,
+                    plan_id: newRestDetails?.plan?.plan_id,
+                    plan_name: newRestDetails?.plan?.plan_name
+                }
+                createRestaurant(restParams).finally(() => {
+                    refreshBrandList();
+                    // setIsLoading(false);
+                    setIsCreateRestCardOpen(false)
+                })
+            },
+        }
+        const rzp1 = new Razorpay(razorpayOptions);
+
+        rzp1.on("payment.failed", function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+
+        rzp1.open();
+
     }
 
 

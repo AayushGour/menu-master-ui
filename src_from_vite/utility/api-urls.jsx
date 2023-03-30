@@ -6,3 +6,4 @@ export const menuTypeRoute = "routes/menutype";
 export const categoryRoute = "routes/cat";
 export const menuRoute = "routes/menu";
 export const qrCodeRoute = "routes/allmenu";
+export const ordersRoute = "routes/orders";
