@@ -104,15 +104,15 @@ const RestaurantListPage = (props) => {
         //     "notes": [],
         //     "created_at": 1680167699
         // }
-        const { amount, id: orderId, currency } = orderDetails;
+        const { amount, id: orderId, currency } = orderDetails?.data;
         const razorpayOptions = {
             key: "rzp_test_Bc9MsRaw1dwKLG", // Enter the Key ID generated from the Dashboard
-            amount: amount?.toString(), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: currency,
             name: "MenuMaster",
             description: "Thank You!!",
             image: "https://firebasestorage.googleapis.com/v0/b/restaurant-a841c.appspot.com/o/images%2FImage1680167938902?alt=media&token=4125436b-aa64-4f87-b8b0-b786ea90e7a6",
-            order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
+            order_id: orderId,
             handler: function (response) {
                 console.log(response)
                 // alert(response.razorpay_payment_id);
@@ -139,6 +139,7 @@ const RestaurantListPage = (props) => {
         const rzp1 = new Razorpay(razorpayOptions);
 
         rzp1.on("payment.failed", function (response) {
+            console.error(response)
             alert(response.error.code);
             alert(response.error.description);
             alert(response.error.source);
