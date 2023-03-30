@@ -37,6 +37,10 @@ const CategoryItem = (props) => {
         });
     }
 
+    const updateMenuDetails = (updatedDetails) => {
+        setMenuItemList((prev) => prev?.map((mi) => mi?.menuid === updatedDetails?.menuid ? { ...mi, ...updatedDetails } : mi))
+    }
+
     const handleCategoryTitleEdit = () => {
         const catParams = {
             cat: catTitle,
@@ -124,7 +128,7 @@ const CategoryItem = (props) => {
                             list={menuItemList?.sort((a, b) => a?.rank1 - b?.rank1)}
                             // list={menuItemList}
                             onMoveEnd={(newList, movedItem, oldIndex, newIndex) => handleMenuListReorder(newList, movedItem, oldIndex, newIndex)}
-                            template={(templateProps) => <MenuItemComponent refreshMenuDetails={refreshMenuDetails} {...templateProps} />}
+                            template={(templateProps) => <MenuItemComponent updateMenuDetails={updateMenuDetails} refreshMenuDetails={refreshMenuDetails} {...templateProps} />}
                         />
                         <Divider><MoreHoriz /></Divider>
                     </div>

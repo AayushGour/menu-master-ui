@@ -14,7 +14,7 @@ import MMTooltip from '../../../utility/mm-tooltip';
 import MMLoader from '../../../utility/loader/mm-loader';
 
 const MenuItemComponent = (props) => {
-    const { item, itemSelected, dragHandleProps, refreshMenuDetails } = props;
+    const { item, itemSelected, dragHandleProps, refreshMenuDetails, updateMenuDetails } = props;
     const [isMenuItemEditing, setIsMenuItemEditing] = useState(false);
     const [editItemParam, setEditItemParam] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +30,11 @@ const MenuItemComponent = (props) => {
     };
 
     const handleMenuItemUpdate = (submitParams) => {
-        setIsLoading(true)
+        // setIsLoading(true)
         const paramsList = ["menu", "spice", "price", "veg", "description", "ingredients", "menuid", "MImage", "status1", "rank1"]
         Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
         updateMenuItem(submitParams).then(() => {
-            refreshMenuDetails();
+            updateMenuDetails(submitParams);
         }).finally(() => {
             setIsLoading(false)
         })
@@ -56,14 +56,14 @@ const MenuItemComponent = (props) => {
     }
 
     const handleAvailabilityToggle = () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         const submitParams = Object.assign({}, item, { status1: Number(!Boolean(item?.status1)) })
         const paramsList = ["menuid", "brandid", "status1"]
         Object.keys(submitParams)?.map((key) => !paramsList.includes(key) ? delete submitParams[key] : null)
         updateMenuItemAvailability(submitParams).then(() => {
-            refreshMenuDetails();
+            updateMenuDetails(submitParams);
         }).finally(() => {
-            setIsLoading(false)
+            // setIsLoading(false)
         })
     }
 
