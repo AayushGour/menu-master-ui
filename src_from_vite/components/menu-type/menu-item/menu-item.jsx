@@ -85,7 +85,29 @@ const MenuItemComponent = (props) => {
             <div className="menu-details-header d-flex flex-column align-items-start flex-grow-1 gap-3 px-2 mt-2">
                 <div className="d-flex flex-row justify-content-between align-items-center w-100">
                     <div className="d-flex flex-row justify-content-start align-items-center gap-2">
-                        <Avatar sx={{ height: 20, width: 20 }} variant='square' src={item?.veg === 1 ? VegImg : NonVegImg} />
+                        {editItemParam?.name === "veg" ?
+                            <FormControl variant='standard' className='select-brand-control'>
+                                <InputLabel id="veg-type-label">Veg</InputLabel>
+                                <Select
+                                    defaultOpen={true}
+                                    className="mm-select"
+                                    labelId="veg-type-label"
+                                    value={editItemParam?.value}
+                                    label="veg"
+                                    variant='standard'
+                                    onChange={(e) => handleEditItemParam({ name: "veg", value: e?.target?.value })}
+                                    onBlur={() => handleEditItemParam()}
+                                >
+                                    <MenuItem value={0}>Non Veg</MenuItem>
+                                    <MenuItem value={1}>Veg</MenuItem>
+                                </Select>
+                            </FormControl>
+                            :
+
+                            <MMTooltip arrow title={"Click to change"} placement='top'>
+                                <Avatar onClick={() => setEditItemParam({ name: "veg", value: item?.veg })} sx={{ height: 20, width: 20, cursor: "pointer" }} variant='square' src={item?.veg === 1 ? VegImg : NonVegImg} />
+                            </MMTooltip>
+                        }
                         {editItemParam?.name === "menu" ?
                             <TextField autoFocus variant='standard' required={true} className='menu-item-input' onBlur={() => handleEditItemParam()} value={editItemParam?.value} onChange={(e) => { setEditItemParam({ ...editItemParam, value: e?.target?.value }) }} placeholder="Enter item title" label="Item Title" />
                             :

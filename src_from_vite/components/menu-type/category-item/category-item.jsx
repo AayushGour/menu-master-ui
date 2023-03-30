@@ -73,7 +73,7 @@ const CategoryItem = (props) => {
     }
 
     return (
-        <div className='category-item ms-2'>
+        <div className='category-item'>
             {isLoading ? <MMLoader className="overlay" /> : <></>}
             {/* <div className="d-flex flex-row align-items-center justify-content-between pe-2 my-3">
                 {isCatEditing ?
