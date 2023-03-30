@@ -1,5 +1,5 @@
 import { Add, Close, Delete, Done, Edit, ExpandCircleDown } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, TextField } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Dialog, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MMLoader from '../../utility/loader/mm-loader';
 import MMTooltip from '../../utility/mm-tooltip';
@@ -19,6 +19,7 @@ const MenuTypeAccordion = (props) => {
     const [IsMTEditing, setIsMTEditing] = useState(false);
     const [isCreatingCategory, setIsCreatingCategory] = useState(false);
     const [isMenuItemCreating, setIsMenuItemCreating] = useState(false);
+    const [deleteMT, setDeleteMT] = useState(false);
     useEffect(() => {
         refreshCategoryDetails();
     }, []);
@@ -80,6 +81,7 @@ const MenuTypeAccordion = (props) => {
             }, 500)
         }).finally(() => {
             setIsLoading(false);
+            setDeleteMT(false);
         })
     }
 
@@ -87,6 +89,15 @@ const MenuTypeAccordion = (props) => {
         <div key={data?.mtid} className="menu-type-container">
             {isLoading ? <MMLoader className='overlay' /> : <></>}
             <Accordion className='menu-type-accordion' defaultExpanded={true}>
+                <Dialog className='create-mt-dialog' open={deleteMT} onClose={() => setDeleteMT(false)}>
+                    <div className='d-flex flex-column aign-items-center justify-content-center py-4 px-3'>
+                        <h3 className='mb-4 w-100 text-center'>Are you sure you want to delete <span className='color-theme-orange'>{data?.menutype}?</span></h3>
+                        <div className='d-flex flex-row align-items-center justify-content-end w-100 mt-4 gap-3'>
+                            <button className='mm-btn px-5 mx-0' onClick={() => setDeleteMT(false)}>No</button>
+                            <button className='mm-btn px-5 primary mx-0' onClick={() => handleMenuTypeDeletion()}>Yes</button>
+                        </div>
+                    </div>
+                </Dialog>
                 <AccordionSummary
                     className='mt-acc-header'
                     expandIcon={<ExpandCircleDown className='expand-icon' htmlColor='#fd9c31' />}
@@ -128,7 +139,7 @@ const MenuTypeAccordion = (props) => {
                             </button>
                         </MMTooltip>
                         <MMTooltip arrow title={"Delete Menu Type"} placement='top'>
-                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleMenuTypeDeletion(); }} className='ghost'>
+                            <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setDeleteMT(true); }} className='ghost'>
                                 <Delete className='mm-icon-btn add-icon' />
                             </button>
                         </MMTooltip>
